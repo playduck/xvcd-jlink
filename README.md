@@ -1,10 +1,42 @@
-"# xvcd-jlink" 
+# xvcd-jlink
 
-Usage: xvcd [-v] [-p port] [-s jtag_speed_in_kHz] [-i core_id]
-v - verbose
-port - listen port (by default is 2542)
-jtag_speed_in_kHz - speed of the JTAG connection in Khz (by default 1000 kHz)
-core_id - IDCODE of hardware core to search in JTAG chain (probably unnecessary feaure, just for test)
+An Xilinx xvc compliant j-link bridge.
 
-Add connection string to iMPACT or ChipScope cable plugin:
-xilinx_xvc host=localhost:2542 disableversioncheck=true
+The bridge works natively with Vivado without legacy iMPACT or ChipScope.
+
+The code is comprised out of [xvcd-jlink by fantomgs](https://github.com/fantomgs/xvcd-jlink) and [XilinxVirtualCable example](https://github.com/Xilinx/XilinxVirtualCable).
+
+This fork simply adds functionality for the `getinfo` and `settck`.
+As of now any arguments to `settck` are ignored.
+However this still seems to work.
+
+This has been tested using Vivado 2022.1
+
+## Build
+
+### Windows 
+
+Using `CMake` and `MinGW`
+
+1. `$ cmake . -G "MinGW Makefiles"`
+2. `$ make`
+
+Make sure `cmake` and `MinGW`'s bin folder are located in your system `PATH` variable.
+
+### JLinkARM.dll
+
+This fork upgrades the `JLinkARM.dll` to `7.64.5`.
+To change the version simply replace the dll.
+If you don't have access to the j-link SDK you can find the dll bundled at the installation folder of your j-link driver (usually `C:\Program Files\SEGGER\JLink`).
+
+I have no idea where `JLinkArm.h` originated from.
+
+## Usage
+`xvcd [-v] [-p port] [-s jtag_speed_in_kHz] [-i core_id]`
+
+| Flag | Option | Description |
+|---|---|---|
+| `-v` | v | verbose |
+| `-p` | port | listen port (by default is 2542) |
+| `-s` | jtag_speed_in_kHz | speed of the JTAG connection in Khz (by default 1000 kHz) |
+| `-i` | core_id | IDCODE of hardware core to search in JTAG chain (probably unnecessary feaure, just for test) |
