@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <winsock2.h>
+#include <time.h>
 
 #include "io_jlink.h"
 #include "JlinkUtil.h"
@@ -91,20 +92,50 @@ static int sread(SOCKET fd, void *target, int len) {
 int handle_data(SOCKET fd) {
   int i;
   int seen_tlr = 0;
+  const char xvcInfo[] = "xvcServer_v1.0:2048\n"; 
 
   do {
     char cmd[16];
-    unsigned char buffer[2048], result[1024];
+    unsigned char buffer[8192], result[1024];
+    memset(cmd, 0, 16);
 
-    if(verbose) {
-      puts("sread");
-    }
-    if (sread(fd, cmd, 6) != 1) {
+    if (sread(fd, cmd, 2) != 1)
       return 1;
-    }
 
-    if (memcmp(cmd, "shift:", 6)) {
-      cmd[6] = 0;
+    if (memcmp(cmd, "ge", 2) == 0) {
+      if (sread(fd, cmd, 6) != 1)
+        return 1;
+      memcpy(result, xvcInfo, strlen(xvcInfo));
+      if (send(fd, result, strlen(xvcInfo), 0) != strlen(xvcInfo)) {
+        perror("write1");
+        return 1;
+      }
+      if (verbose) {
+        printf("%u : Received command: 'getinfo'\n", (int)time(NULL));
+        printf("\t Replied with %s\n", xvcInfo);
+      }
+      break;
+    } else if (memcmp(cmd, "se", 2) == 0) {
+      if (sread(fd, cmd, 9) != 1)
+        return 1;
+      memcpy(result, cmd + 5, 4);
+      if (send(fd, result, 4, 0) != 4) {
+        perror("write2");
+        return 1;
+      }
+      if (verbose) {
+        printf("%u : Received command: 'settck'\n", (int)time(NULL));
+        printf("\t Replied with '%.*s'\n\n", 4, cmd + 5);
+      }
+      break;
+    } else if (memcmp(cmd, "sh", 2) == 0) {
+      if (sread(fd, cmd, 4) != 1)
+        return 1;
+      if (verbose) {
+        printf("%u : Received command: 'shift'\n", (int)time(NULL));
+      }
+    } else {
+
       fprintf(stderr, "invalid cmd '%s'\n", cmd);
       return 1;
     }
