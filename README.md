@@ -28,8 +28,11 @@ Make sure `cmake` and `MinGW`'s bin folder are located in your system `PATH` var
 This fork upgrades the `JLinkARM.dll` to `7.64.5`.
 To change the version simply replace the dll.
 If you don't have access to the j-link SDK you can find the dll bundled at the installation folder of your j-link driver (usually `C:\Program Files\SEGGER\JLink`).
-
 I have no idea where `JLinkArm.h` originated from.
+
+**Note**: The dll in this repository is for 64-Bit systems only!
+On a 32-Bit system it must be replaced by the corressponding dll from your j-link SDK installation.
+Thanks to [Michael from emb4fun](https://www.emb4fun.de) for pointing this out!
 
 ## Usage
 `xvcd [-v] [-p port] [-s jtag_speed_in_kHz] [-i core_id]`
