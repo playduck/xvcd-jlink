@@ -31,7 +31,7 @@ int io_scan(const unsigned char *TMS, const unsigned char *TDI, unsigned char *T
   }
 
   r = JLINKARM_JTAG_StoreGetRaw(TDI, TDO, TMS, bits);
-  if (!r)
+  if (r)
   {
     perror("FATAL: failed to execute raw command\n");
     return -1;
