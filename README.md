@@ -30,8 +30,8 @@ To change the version simply replace the dll.
 If you don't have access to the j-link SDK you can find the dll bundled at the installation folder of your j-link driver (usually `C:\Program Files\SEGGER\JLink`).
 I have no idea where `JLinkArm.h` originated from.
 
-**Note**: The dll in this repository is for 64-Bit systems only!
-On a 32-Bit system it must be replaced by the corressponding dll from your j-link SDK installation.
+**Note**: The dll in this repository is for 32-Bit systems/compilations only!
+For a 64-Bit system it must be replaced by the corressponding dll from your j-link SDK installation.
 Thanks to [Michael from emb4fun](https://www.emb4fun.de) for pointing this out!
 
 ## Usage
