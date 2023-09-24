@@ -1,3 +1,13 @@
+
+As of J-link software pacakge version V7.92d, an official XVCD server is included.
+
+This makes this program obsolete for all future versions!
+
+Check out the official documentation at:
+https://wiki.segger.com/J-Link_XVCD_Server
+
+---
+
 # xvcd-jlink
 
 An Xilinx xvc compliant j-link bridge.
